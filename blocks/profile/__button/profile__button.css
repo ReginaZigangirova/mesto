@@ -1,0 +1,22 @@
+.profile__button {
+    border: 1px solid #FFFFFF;
+    background-color: transparent;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    background-image: url(../../../images/pencil-min.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 0;
+}
+
+.profile__button:hover {
+    opacity: 0.6;
+}
+
+@media screen and (max-width: 540px) {
+    .profile__button {
+        width: 18px;
+        height: 18px;
+    }
+}

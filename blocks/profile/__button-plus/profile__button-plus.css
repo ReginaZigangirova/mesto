@@ -1,0 +1,28 @@
+.profile__button-plus {
+    border: 1px solid #FFFFFF;
+    background-color: transparent;
+    cursor: pointer;
+    width: 150px;
+    height: 50px;
+    background-image: url(../../../images/Vector\(3\)-min.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 0;
+}
+
+.profile__button-plus:hover {
+    opacity: 0.6;
+}
+
+@media screen and (max-width: 929px) {
+    .profile__button-plus {
+        margin-right: 20px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .profile__button-plus {
+        width: 282px;
+        margin: 36px 0 0 0;
+    }
+}

@@ -1,0 +1,30 @@
+.popup__close {
+    background-image: url(../../../images/Close\ Icon-min.png);
+    width: 100%;
+    height: 32px;
+    cursor: pointer;
+    max-width: 32px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    position: absolute;
+    right: -38px;
+    top: -38px;
+}
+
+.popup__close:hover {
+    opacity: 0.6;
+}
+
+@media screen and (max-width: 768px) {
+    .popup__close {
+        width: 20px;
+        height: 20px;
+        top: -35px;
+        right: 0px;
+        background-image: url(../../../images/minclose-min.png);
+    }
+}
