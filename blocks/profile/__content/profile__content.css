@@ -1,12 +1,6 @@
 .profile__content {
     display: flex;
     flex-direction: row;
-    align-items: end;
+    align-items: center;
     justify-content: end;
-}
-
-@media screen and (max-width: 540px) {
-    .profile__content {
-        align-items: center;
-    }
 }
