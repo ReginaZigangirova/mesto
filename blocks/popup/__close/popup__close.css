@@ -1,5 +1,5 @@
 .popup__close {
-    background-image: url(../../../images/Close\ Icon-min.png);
+    background-image: url(../../../images/Close\.svg);
     width: 100%;
     height: 32px;
     cursor: pointer;
@@ -25,6 +25,6 @@
         height: 20px;
         top: -35px;
         right: 0px;
-        background-image: url(../../../images/minclose-min.png);
+        background-image: url(../../../images/Closemin.svg);
     }
 }
