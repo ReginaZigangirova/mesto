@@ -1,7 +1,7 @@
 .elements__text {
     display: flex;
     justify-content: space-between;
-    margin: 25px 21px 31px 15px;
+    margin: 25px 15px 31px 21px;
     align-items: center;
     text-overflow: ellipsis;
     white-space: nowrap;
