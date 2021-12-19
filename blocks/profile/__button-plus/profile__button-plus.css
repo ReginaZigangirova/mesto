@@ -26,5 +26,6 @@
     .profile__button-plus {
         width: 282px;
         margin: 36px 0 0 0;
+        background-size: 16px;
     }
 }
