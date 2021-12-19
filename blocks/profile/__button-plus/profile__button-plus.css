@@ -1,5 +1,7 @@
 .profile__button-plus {
-    border: 1px solid #FFFFFF;
+    border: 2px solid #FFFFFF;
+    box-sizing: border-box;
+    border-radius: 2px;
     background-color: transparent;
     cursor: pointer;
     width: 150px;
