@@ -24,6 +24,7 @@
 
 @media screen and (max-width: 768px) {
     .profile__button-plus {
+        background-image: url(../../../images/plus-min.svg);
         width: 282px;
         margin: 36px 0 0 0;
         background-size: 16px;

@@ -2,20 +2,19 @@
     border: 0;
     border-bottom: 1px solid rgba(0, 0, 0, .2);
     width: 358px;
-    margin-top: 54px;
-    padding-bottom: 13px;
+    margin-top: 49px;
     font-size: 14px;
     line-height: 17px;
-    padding-top: 13px;
+    padding: 5px 0 13px;
 }
 
 .popup__input:last-of-type {
-    margin-top: 30px;
+    margin-top: 25px;
 }
 
 @media screen and (max-width: 768px) {
     .popup__input {
         width: 238px;
-        margin-top: 75px;
+        margin-top: 70px;
     }
 }
