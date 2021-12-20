@@ -11,8 +11,8 @@
     background-repeat: no-repeat;
     background-color: transparent;
     position: absolute;
-    right: -38px;
-    top: -38px;
+    right: -40px;
+    top: -40px;
 }
 
 .popup__close:hover {
@@ -23,7 +23,7 @@
     .popup__close {
         width: 20px;
         height: 20px;
-        top: -35px;
+        top: -37px;
         right: 0px;
         background-image: url(../../../images/Closemin.svg);
     }
