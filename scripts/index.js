@@ -44,6 +44,7 @@ editCloseButton.addEventListener('click', function() {
     //открытие модалки добавления карточки
 addCardButton.addEventListener('click', function() {
     toggleModal(addCardModal)
+    addCardForm.reset()
 });
 //закрытие модалки добавления карточки
 addCardCloseButton.addEventListener('click', function() {
