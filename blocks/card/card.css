@@ -1,4 +1,4 @@
-.elements {
+.card {
     padding-top: 51px;
     display: flex;
     row-gap: 20px;
@@ -10,7 +10,7 @@
 }
 
 @media screen and (max-width: 540px) {
-    .elements {
+    .card {
         padding-top: 36px;
     }
 }
