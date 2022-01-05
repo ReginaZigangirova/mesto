@@ -1,5 +1,5 @@
-.elements__like {
-    background-image: url(../../../images/like.svg);
+.card__like_active {
+    background-image: url(../../../../images/black.svg);
     width: 100%;
     height: 19px;
     cursor: pointer;
@@ -11,12 +11,4 @@
     background-position: center;
     background-repeat: no-repeat;
     background-color: transparent;
-}
-
-.elements__like:hover {
-    opacity: 0.5;
-}
-
-.elements__like:active {
-    background-image: url(../../../images/black.svg);
 }

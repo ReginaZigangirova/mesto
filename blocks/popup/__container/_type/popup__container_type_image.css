@@ -1,0 +1,10 @@
+.popup__container_type_image {
+    width: auto;
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0;
+    max-width: 75vw;
+    max-height: 75vh;
+    text-align: start;
+    line-height: 0;
+}
