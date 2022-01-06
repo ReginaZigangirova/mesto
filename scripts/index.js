@@ -17,49 +17,11 @@ const addCardForm = addCardModal.querySelector('.popup__form');
 
 //модалка картинки
 const imgModal = document.querySelector('.popup_type_img');
-const imgModalButton = imgModal.querySelector('.popup__close');
-const modalImg = document.querySelector('.popup__img')
-const modaltitle = document.querySelector('.popup__title')
+const imgModalCloseButton = imgModal.querySelector('.popup__close');
+const modalImg = document.querySelector('.popup__img');
+const modaltitle = document.querySelector('.popup__title');
 
-function toggleModal(modal) {
-    modal.classList.toggle('popup_opened');
-    nameInput.value = profileName.textContent;
-    jobInput.value = profileJob.textContent;
-}
-
-function toggleEditModal() {
-    editModal.classList.toggle('popup_opened');
-    nameInput.value = profileName.textContent;
-    jobInput.value = profileJob.textContent;
-}
-
-//открытие модалки профиля
-editOpenButton.addEventListener('click', function() {
-        toggleModal(editModal)
-    })
-    //закрытие модалки профиля
-editCloseButton.addEventListener('click', function() {
-        toggleModal(editModal)
-    })
-    //открытие модалки добавления карточки
-addCardButton.addEventListener('click', function() {
-    toggleModal(addCardModal)
-    addCardForm.reset()
-});
-//закрытие модалки добавления карточки
-addCardCloseButton.addEventListener('click', function() {
-    toggleModal(addCardModal)
-    addCardForm.reset()
-});
-
-//форма профиля
-editForm.addEventListener('submit', function formSubmitHandler(evt) {
-    evt.preventDefault();
-    profileName.textContent = nameInput.value;
-    profileJob.textContent = jobInput.value;
-    editModal.classList.remove('popup_opened');
-})
-
+//карточки
 const initialCards = [{
         name: 'Архыз',
         link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
@@ -91,14 +53,51 @@ const cardTemplate = document.querySelector('.card-template').content;
 const inputCardName = document.querySelector('.popup__input_type_card-name');
 const inputCardLink = document.querySelector('.popup__input_type_card-link');
 
+//функция открытия модалок
+function toggleModal(modal) {
+    modal.classList.toggle('popup_opened');
+}
+
+function toggleOpenModal() {
+    toggleModal(editModal);
+}
+
+//открытие модалки профиля
+editOpenButton.addEventListener('click', function() {
+        toggleModal(editModal);
+        nameInput.value = profileName.textContent;
+        jobInput.value = profileJob.textContent;
+    })
+    //закрытие модалки профиля
+editCloseButton.addEventListener('click', function() {
+        toggleModal(editModal);
+    })
+    //открытие модалки добавления карточки
+addCardButton.addEventListener('click', function() {
+    toggleModal(addCardModal);
+    addCardForm.reset();
+});
+//закрытие модалки добавления карточки
+addCardCloseButton.addEventListener('click', function() {
+    toggleModal(addCardModal);
+});
+
+//форма профиля
+editForm.addEventListener('submit', function formSubmitEditHandler(evt) {
+    evt.preventDefault();
+    profileName.textContent = nameInput.value;
+    profileJob.textContent = jobInput.value;
+    toggleModal(editModal);
+})
+
+//функция удаления карточки
 function deleteHandler(e) {
     e.target.closest('.card__elements').remove()
 }
-
+//функция лайка
 function likeHandler(evt) {
     evt.target.classList.toggle('card__like_active');
 }
-
 
 function createCard(cardData) {
     const cardElement = cardTemplate.cloneNode(true);
@@ -109,29 +108,35 @@ function createCard(cardData) {
 
     cardTitle.textContent = cardData.name;
     cardPhoto.src = cardData.link;
+    cardPhoto.alt = cardData.name;
     deleteButton.addEventListener('click', deleteHandler);
     likeButton.addEventListener("click", likeHandler);
 
     cardPhoto.addEventListener('click', function imgHandler() {
-        toggleModal(imgModal)
+        toggleModal(imgModal);
         modalImg.src = cardData.link;
         modaltitle.textContent = cardData.name;
+        modalImg.alt = cardData.name;
+
     })
-
-
-    section.prepend(cardElement);
+    return cardElement;
 }
-imgModalButton.addEventListener('click', function() {
-    toggleModal(imgModal)
+const renderPlaceCard = (data) => {
+    const card = createCard(data);
+    section.prepend(card);
+}
+
+imgModalCloseButton.addEventListener('click', function() {
+    toggleModal(imgModal);
 })
 
-initialCards.forEach(createCard);
+initialCards.forEach(renderPlaceCard);
 
 addCardForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    createCard({
+    renderPlaceCard({
         name: inputCardName.value,
         link: inputCardLink.value
     })
-    toggleModal(addCardModal)
+    toggleModal(addCardModal);
 })
