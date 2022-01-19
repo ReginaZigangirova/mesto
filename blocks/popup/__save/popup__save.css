@@ -13,6 +13,13 @@
     cursor: pointer;
 }
 
+.popup__save:disabled {
+    background: white;
+    color: rgba(0, 0, 0, 0.2);
+    border: 1px solid;
+    border-color: rgba(0, 0, 0, 0.2);
+}
+
 .popup__save:hover {
     opacity: 0.8;
 }

@@ -1,4 +1,5 @@
 //модалка профиля
+const popups = document.querySelectorAll('.popup');
 const editModal = document.querySelector('.popup_type_edit');
 const editOpenButton = document.querySelector('.profile__button');
 const editCloseButton = editModal.querySelector('.popup__close');
@@ -14,6 +15,8 @@ const addCardModal = document.querySelector('.popup_type_add-card');
 const addCardButton = document.querySelector('.profile__button-plus');
 const addCardCloseButton = addCardModal.querySelector('.popup__close');
 const addCardForm = addCardModal.querySelector('.popup__form');
+
+
 
 //модалка картинки
 const imgModal = document.querySelector('.popup_type_img');
@@ -56,10 +59,29 @@ const inputCardLink = document.querySelector('.popup__input_type_card-link');
 //функция открытия модалок
 function toggleModal(modal) {
     modal.classList.toggle('popup_opened');
+    document.addEventListener("keydown", closeOnEsc);
+}
+
+//закрытиe модалок на Overlay 
+popups.forEach((modal) => {
+    modal.addEventListener('mousedown', (evt) => {
+        if (evt.target.classList.contains("popup_opened")) {
+            toggleModal(modal)
+        }
+    })
+})
+
+// закрытие модалок на Esc
+function closeOnEsc(evt) {
+    if (evt.key === 'Escape' || evt.key === 'Esc') {
+        const modalOpened = document.querySelector('.popup_opened');
+        toggleModal(modalOpened);
+    }
 }
 
 function toggleOpenModal() {
     toggleModal(editModal);
+
 }
 
 //открытие модалки профиля
@@ -67,20 +89,25 @@ editOpenButton.addEventListener('click', function() {
         toggleModal(editModal);
         nameInput.value = profileName.textContent;
         jobInput.value = profileJob.textContent;
+
     })
     //закрытие модалки профиля
 editCloseButton.addEventListener('click', function() {
         toggleModal(editModal);
+
     })
     //открытие модалки добавления карточки
 addCardButton.addEventListener('click', function() {
     toggleModal(addCardModal);
     addCardForm.reset();
+
 });
 //закрытие модалки добавления карточки
 addCardCloseButton.addEventListener('click', function() {
     toggleModal(addCardModal);
+
 });
+
 
 //форма профиля
 editForm.addEventListener('submit', function formSubmitEditHandler(evt) {
