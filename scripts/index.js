@@ -56,17 +56,24 @@ const cardTemplate = document.querySelector('.card-template').content;
 const inputCardName = document.querySelector('.popup__input_type_card-name');
 const inputCardLink = document.querySelector('.popup__input_type_card-link');
 
-//функция открытия модалок
-function toggleModal(modal) {
-    modal.classList.toggle('popup_opened');
+//открытие модалок
+
+function openPopup(popup) {
+    popup.classList.add('popup_opened');
     document.addEventListener("keydown", closeOnEsc);
+}
+
+//закрытие модалок
+function closePopup(popup) {
+    popup.classList.remove('popup_opened');
+    document.removeEventListener("keydown", closeOnEsc);
 }
 
 //закрытиe модалок на Overlay 
 popups.forEach((modal) => {
     modal.addEventListener('mousedown', (evt) => {
         if (evt.target.classList.contains("popup_opened")) {
-            toggleModal(modal)
+            closePopup(modal)
         }
     })
 })
@@ -75,36 +82,31 @@ popups.forEach((modal) => {
 function closeOnEsc(evt) {
     if (evt.key === 'Escape' || evt.key === 'Esc') {
         const modalOpened = document.querySelector('.popup_opened');
-        toggleModal(modalOpened);
+        closePopup(modalOpened);
     }
-}
-
-function toggleOpenModal() {
-    toggleModal(editModal);
-
 }
 
 //открытие модалки профиля
 editOpenButton.addEventListener('click', function() {
-        toggleModal(editModal);
+        openPopup(editModal);
         nameInput.value = profileName.textContent;
         jobInput.value = profileJob.textContent;
         resetErrorInput(editForm, validationConfig);
     })
     //закрытие модалки профиля
 editCloseButton.addEventListener('click', function() {
-        toggleModal(editModal);
+        closePopup(editModal);
 
     })
     //открытие модалки добавления карточки
 addCardButton.addEventListener('click', function() {
-    toggleModal(addCardModal);
+    openPopup(addCardModal);
     addCardForm.reset();
     resetErrorInput(addCardForm, validationConfig);
 });
 //закрытие модалки добавления карточки
 addCardCloseButton.addEventListener('click', function() {
-    toggleModal(addCardModal);
+    closePopup(addCardModal);
 
 });
 
@@ -114,15 +116,15 @@ editForm.addEventListener('submit', function formSubmitEditHandler(evt) {
     evt.preventDefault();
     profileName.textContent = nameInput.value;
     profileJob.textContent = jobInput.value;
-    toggleModal(editModal);
+    closePopup(editModal);
 })
 
 //функция удаления карточки
-function deleteHandler(e) {
-    e.target.closest('.card__elements').remove()
-}
-//функция лайка
-function likeHandler(evt) {
+const deleteHandler = (e) => {
+        e.target.closest('.card__elements').remove()
+    }
+    //функция лайка
+const handleLikeButton = (evt) => {
     evt.target.classList.toggle('card__like_active');
 }
 
@@ -136,16 +138,15 @@ function createCard(cardData) {
     cardTitle.textContent = cardData.name;
     cardPhoto.src = cardData.link;
     cardPhoto.alt = cardData.name;
-    deleteButton.addEventListener('click', deleteHandler);
-    likeButton.addEventListener("click", likeHandler);
-
-    cardPhoto.addEventListener('click', function imgHandler() {
-        toggleModal(imgModal);
+    const imgHandler = () => {
+        openPopup(imgModal);
         modalImg.src = cardData.link;
         modaltitle.textContent = cardData.name;
         modalImg.alt = cardData.name;
-
-    })
+    }
+    cardPhoto.addEventListener('click', imgHandler);
+    deleteButton.addEventListener('click', deleteHandler);
+    likeButton.addEventListener("click", handleLikeButton);
     return cardElement;
 }
 const renderPlaceCard = (data) => {
@@ -154,7 +155,7 @@ const renderPlaceCard = (data) => {
 }
 
 imgModalCloseButton.addEventListener('click', function() {
-    toggleModal(imgModal);
+    closePopup(imgModal);
 })
 
 initialCards.forEach(renderPlaceCard);
@@ -165,5 +166,5 @@ addCardForm.addEventListener('submit', (evt) => {
         name: inputCardName.value,
         link: inputCardLink.value
     })
-    toggleModal(addCardModal);
+    closePopup(addCardModal);
 })
