@@ -89,7 +89,7 @@ editOpenButton.addEventListener('click', function() {
         toggleModal(editModal);
         nameInput.value = profileName.textContent;
         jobInput.value = profileJob.textContent;
-
+        resetErrorInput(editForm, validationConfig);
     })
     //закрытие модалки профиля
 editCloseButton.addEventListener('click', function() {
@@ -100,7 +100,7 @@ editCloseButton.addEventListener('click', function() {
 addCardButton.addEventListener('click', function() {
     toggleModal(addCardModal);
     addCardForm.reset();
-
+    resetErrorInput(addCardForm, validationConfig);
 });
 //закрытие модалки добавления карточки
 addCardCloseButton.addEventListener('click', function() {
