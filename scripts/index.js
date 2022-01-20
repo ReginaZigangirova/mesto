@@ -58,13 +58,13 @@ const inputCardLink = document.querySelector('.popup__input_type_card-link');
 
 //открытие модалок
 
-function openPopup(popup) {
+function openModal(popup) {
     popup.classList.add('popup_opened');
     document.addEventListener("keydown", closeOnEsc);
 }
 
 //закрытие модалок
-function closePopup(popup) {
+function closeModal(popup) {
     popup.classList.remove('popup_opened');
     document.removeEventListener("keydown", closeOnEsc);
 }
@@ -73,7 +73,7 @@ function closePopup(popup) {
 popups.forEach((modal) => {
     modal.addEventListener('mousedown', (evt) => {
         if (evt.target.classList.contains("popup_opened")) {
-            closePopup(modal)
+            closeModal(modal)
         }
     })
 })
@@ -82,31 +82,31 @@ popups.forEach((modal) => {
 function closeOnEsc(evt) {
     if (evt.key === 'Escape' || evt.key === 'Esc') {
         const modalOpened = document.querySelector('.popup_opened');
-        closePopup(modalOpened);
+        closeModal(modalOpened);
     }
 }
 
 //открытие модалки профиля
 editOpenButton.addEventListener('click', function() {
-        openPopup(editModal);
+        openModal(editModal);
         nameInput.value = profileName.textContent;
         jobInput.value = profileJob.textContent;
         resetErrorInput(editForm, validationConfig);
     })
     //закрытие модалки профиля
 editCloseButton.addEventListener('click', function() {
-        closePopup(editModal);
+        closeModal(editModal);
 
     })
     //открытие модалки добавления карточки
 addCardButton.addEventListener('click', function() {
-    openPopup(addCardModal);
+    openModal(addCardModal);
     addCardForm.reset();
     resetErrorInput(addCardForm, validationConfig);
 });
 //закрытие модалки добавления карточки
 addCardCloseButton.addEventListener('click', function() {
-    closePopup(addCardModal);
+    closeModal(addCardModal);
 
 });
 
@@ -116,7 +116,7 @@ editForm.addEventListener('submit', function formSubmitEditHandler(evt) {
     evt.preventDefault();
     profileName.textContent = nameInput.value;
     profileJob.textContent = jobInput.value;
-    closePopup(editModal);
+    closeModal(editModal);
 })
 
 //функция удаления карточки
@@ -139,7 +139,7 @@ function createCard(cardData) {
     cardPhoto.src = cardData.link;
     cardPhoto.alt = cardData.name;
     const imgHandler = () => {
-        openPopup(imgModal);
+        openModal(imgModal);
         modalImg.src = cardData.link;
         modaltitle.textContent = cardData.name;
         modalImg.alt = cardData.name;
@@ -155,7 +155,7 @@ const renderPlaceCard = (data) => {
 }
 
 imgModalCloseButton.addEventListener('click', function() {
-    closePopup(imgModal);
+    closeModal(imgModal);
 })
 
 initialCards.forEach(renderPlaceCard);
@@ -166,5 +166,5 @@ addCardForm.addEventListener('submit', (evt) => {
         name: inputCardName.value,
         link: inputCardLink.value
     })
-    closePopup(addCardModal);
+    closeModal(addCardModal);
 })
