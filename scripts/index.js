@@ -1,3 +1,7 @@
+import { Card } from './card.js';
+import { initialCards } from './array.js';
+import { FormValidator } from './validate.js'
+import { validationConfig } from './config.js'
 //модалка профиля
 const popups = document.querySelectorAll('.popup');
 const editModal = document.querySelector('.popup_type_edit');
@@ -16,49 +20,24 @@ const addCardButton = document.querySelector('.profile__button-plus');
 const addCardCloseButton = addCardModal.querySelector('.popup__close');
 const addCardForm = addCardModal.querySelector('.popup__form');
 
-
-
 //модалка картинки
-const imgModal = document.querySelector('.popup_type_img');
+export const imgModal = document.querySelector('.popup_type_img');
 const imgModalCloseButton = imgModal.querySelector('.popup__close');
-const modalImg = document.querySelector('.popup__img');
-const modaltitle = document.querySelector('.popup__title');
-
-//карточки
-const initialCards = [{
-        name: 'Архыз',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-    },
-    {
-        name: 'Челябинская область',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-    },
-    {
-        name: 'Иваново',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-    },
-    {
-        name: 'Камчатка',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-    },
-    {
-        name: 'Холмогорский район',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-    },
-    {
-        name: 'Байкал',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-    }
-];
+export const modalImg = document.querySelector('.popup__img');
+export const modaltitle = document.querySelector('.popup__title');
 
 const section = document.querySelector('.card');
-const cardTemplate = document.querySelector('.card-template').content;
 const inputCardName = document.querySelector('.popup__input_type_card-name');
 const inputCardLink = document.querySelector('.popup__input_type_card-link');
 
+const validFormEdit = new FormValidator(validationConfig, editForm);
+const validFormaddCard = new FormValidator(validationConfig, addCardForm);
+
+validFormEdit.enableValidation();
+validFormaddCard.enableValidation();
 //открытие модалок
 
-function openModal(popup) {
+export function openModal(popup) {
     popup.classList.add('popup_opened');
     document.addEventListener("keydown", closeOnEsc);
 }
@@ -91,25 +70,25 @@ editOpenButton.addEventListener('click', function() {
         openModal(editModal);
         nameInput.value = profileName.textContent;
         jobInput.value = profileJob.textContent;
-        resetErrorInput(editForm, validationConfig);
+        validFormEdit.resetErrorInput()
     })
     //закрытие модалки профиля
 editCloseButton.addEventListener('click', function() {
-        closeModal(editModal);
+    closeModal(editModal);
 
-    })
-    //открытие модалки добавления карточки
+})
+
+//открытие модалки добавления карточки
 addCardButton.addEventListener('click', function() {
     openModal(addCardModal);
     addCardForm.reset();
-    resetErrorInput(addCardForm, validationConfig);
+    validFormaddCard.resetErrorInput()
 });
+
 //закрытие модалки добавления карточки
 addCardCloseButton.addEventListener('click', function() {
     closeModal(addCardModal);
-
 });
-
 
 //форма профиля
 editForm.addEventListener('submit', function formSubmitEditHandler(evt) {
@@ -119,50 +98,27 @@ editForm.addEventListener('submit', function formSubmitEditHandler(evt) {
     closeModal(editModal);
 })
 
-//функция удаления карточки
-const deleteHandler = (e) => {
-        e.target.closest('.card__elements').remove()
-    }
-    //функция лайка
-const handleLikeButton = (evt) => {
-    evt.target.classList.toggle('card__like_active');
-}
+function addCard(item) {
+    section.prepend(item);
+};
 
-function createCard(cardData) {
-    const cardElement = cardTemplate.cloneNode(true);
-    const cardPhoto = cardElement.querySelector('.card__photo');
-    const cardTitle = cardElement.querySelector('.card__tittle');
-    const deleteButton = cardElement.querySelector('.card__delete');
-    const likeButton = cardElement.querySelector('.card__like');
+function makeCard(item) {
+    const card = new Card(item.name, item.link, '.card-template');
+    const cardElement = card.createCard();
+    addCard(cardElement);
+};
 
-    cardTitle.textContent = cardData.name;
-    cardPhoto.src = cardData.link;
-    cardPhoto.alt = cardData.name;
-    const imgHandler = () => {
-        openModal(imgModal);
-        modalImg.src = cardData.link;
-        modaltitle.textContent = cardData.name;
-        modalImg.alt = cardData.name;
-    }
-    cardPhoto.addEventListener('click', imgHandler);
-    deleteButton.addEventListener('click', deleteHandler);
-    likeButton.addEventListener("click", handleLikeButton);
-    return cardElement;
-}
-const renderPlaceCard = (data) => {
-    const card = createCard(data);
-    section.prepend(card);
-}
+initialCards.forEach((item) => {
+    makeCard(item);
+});
 
 imgModalCloseButton.addEventListener('click', function() {
     closeModal(imgModal);
 })
 
-initialCards.forEach(renderPlaceCard);
-
 addCardForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    renderPlaceCard({
+    makeCard({
         name: inputCardName.value,
         link: inputCardLink.value
     })
