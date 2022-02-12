@@ -1,7 +1,7 @@
-import { Card } from './card.js';
-import { initialCards } from './array.js';
-import { FormValidator } from './validate.js'
-import { validationConfig } from './config.js'
+import { Card } from './Сard.js';
+import { initialCards, validationConfig } from './utils.js';
+import { FormValidator } from './FormValidator.js'
+
 //модалка профиля
 const popups = document.querySelectorAll('.popup');
 const editModal = document.querySelector('.popup_type_edit');
@@ -35,8 +35,8 @@ const validFormaddCard = new FormValidator(validationConfig, addCardForm);
 
 validFormEdit.enableValidation();
 validFormaddCard.enableValidation();
-//открытие модалок
 
+//открытие модалок
 export function openModal(popup) {
     popup.classList.add('popup_opened');
     document.addEventListener("keydown", closeOnEsc);
@@ -98,19 +98,13 @@ editForm.addEventListener('submit', function formSubmitEditHandler(evt) {
     closeModal(editModal);
 })
 
-function addCard(item) {
-    section.prepend(item);
-};
-
-function makeCard(item) {
-    const card = new Card(item.name, item.link, '.card-template');
+const renderPlaceCard = (data) => {
+    const card = new Card(data.name, data.link, '.card-template');
     const cardElement = card.createCard();
-    addCard(cardElement);
-};
+    section.prepend(cardElement);
+}
 
-initialCards.forEach((item) => {
-    makeCard(item);
-});
+initialCards.forEach(renderPlaceCard);
 
 imgModalCloseButton.addEventListener('click', function() {
     closeModal(imgModal);
@@ -118,7 +112,7 @@ imgModalCloseButton.addEventListener('click', function() {
 
 addCardForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    makeCard({
+    renderPlaceCard({
         name: inputCardName.value,
         link: inputCardLink.value
     })

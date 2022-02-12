@@ -40,9 +40,8 @@ export class Card {
         modalImg.alt = this._name;
         openModal(imgModal);
     };
-
+    //установка слушателей
     _setEventListeners() {
-
         this._element.querySelector('.card__delete').addEventListener('click', () => { this._deleteHandler() });
         this._element.querySelector('.card__like').addEventListener('click', () => { this._handleLikeButton() });
         this._element.querySelector('.card__photo').addEventListener('click', () => { this._imgHandler() });
