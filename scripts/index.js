@@ -98,23 +98,29 @@ editForm.addEventListener('submit', function formSubmitEditHandler(evt) {
     closeModal(editModal);
 })
 
-const renderPlaceCard = (data) => {
-    const card = new Card(data.name, data.link, '.card-template');
-    const cardElement = card.createCard();
-    section.prepend(cardElement);
-}
-
-initialCards.forEach(renderPlaceCard);
-
 imgModalCloseButton.addEventListener('click', function() {
     closeModal(imgModal);
 })
+
+//добавление карточки
+
+function createCard(data) {
+    const card = new Card(data.name, data.link, '.card-template');
+    const cardElement = card.createCard();
+    return cardElement // возваращаете готовую карточку
+}
+
+const renderPlaceCard = (data) => {
+    section.prepend(createCard(data));
+}
+
+initialCards.forEach(renderPlaceCard);
 
 addCardForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
     renderPlaceCard({
         name: inputCardName.value,
-        link: inputCardLink.value
+        link: inputCardLink.value,
     })
     closeModal(addCardModal);
 })
