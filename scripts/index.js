@@ -1,34 +1,12 @@
 import { Card } from './Сard.js';
 import { initialCards, validationConfig } from './utils.js';
-import { FormValidator } from './FormValidator.js'
+import { FormValidator } from './FormValidator.js';
+import Section from './Section.js'
+import PopupWithImage from './PopupWithImage.js'
+import PopupWithForm from './PopupWithForm.js'
+import UserInfo from "./UserInfo.js";
+import { editSelector, editOpenButton, editForm, addCardForm, addCardButton, addCardModal, section } from './utils.js';
 
-//модалка профиля
-const popups = document.querySelectorAll('.popup');
-const editModal = document.querySelector('.popup_type_edit');
-const editOpenButton = document.querySelector('.profile__button');
-const editCloseButton = editModal.querySelector('.popup__close');
-
-const editForm = editModal.querySelector('.popup__form');
-const nameInput = editForm.querySelector('.popup__input_type_name');
-const jobInput = editForm.querySelector('.popup__input_type_job');
-const profileName = document.querySelector('.profile__name');
-const profileJob = document.querySelector('.profile__job');
-
-//модалка добавления карточки 
-const addCardModal = document.querySelector('.popup_type_add-card');
-const addCardButton = document.querySelector('.profile__button-plus');
-const addCardCloseButton = addCardModal.querySelector('.popup__close');
-const addCardForm = addCardModal.querySelector('.popup__form');
-
-//модалка картинки
-export const imgModal = document.querySelector('.popup_type_img');
-const imgModalCloseButton = imgModal.querySelector('.popup__close');
-export const modalImg = document.querySelector('.popup__img');
-export const modaltitle = document.querySelector('.popup__title');
-
-const section = document.querySelector('.card');
-const inputCardName = document.querySelector('.popup__input_type_card-name');
-const inputCardLink = document.querySelector('.popup__input_type_card-link');
 
 const validFormEdit = new FormValidator(validationConfig, editForm);
 const validFormaddCard = new FormValidator(validationConfig, addCardForm);
@@ -36,76 +14,59 @@ const validFormaddCard = new FormValidator(validationConfig, addCardForm);
 validFormEdit.enableValidation();
 validFormaddCard.enableValidation();
 
-//открытие модалок
-export function openModal(popup) {
-    popup.classList.add('popup_opened');
-    document.addEventListener("keydown", closeOnEsc);
-}
+//модалка профиля
+const userInfo = new UserInfo(editSelector);
 
-//закрытие модалок
-function closeModal(popup) {
-    popup.classList.remove('popup_opened');
-    document.removeEventListener("keydown", closeOnEsc);
-}
+editOpenButton.addEventListener("click", function() {
+    editPopup.open();
 
-//закрытиe модалок на Overlay 
-popups.forEach((modal) => {
-    modal.addEventListener('mousedown', (evt) => {
-        if (evt.target.classList.contains("popup_opened")) {
-            closeModal(modal)
-        }
-    })
-})
+    const userDescription = userInfo.getUserInfo();
 
-// закрытие модалок на Esc
-function closeOnEsc(evt) {
-    if (evt.key === 'Escape' || evt.key === 'Esc') {
-        const modalOpened = document.querySelector('.popup_opened');
-        closeModal(modalOpened);
+    nameInput.value = userDescription.name;
+    jobInput.value = userDescription.job;
+
+    validFormEdit.resetErrorInput()
+});
+
+const editPopup = new PopupWithForm('.popup_type_edit', {
+    submitHandler: (data) => {
+        userInfo.setUserInfo(data);
+        editPopup.close();
     }
-}
-
-//открытие модалки профиля
-editOpenButton.addEventListener('click', function() {
-        openModal(editModal);
-        nameInput.value = profileName.textContent;
-        jobInput.value = profileJob.textContent;
-        validFormEdit.resetErrorInput()
-    })
-    //закрытие модалки профиля
-editCloseButton.addEventListener('click', function() {
-    closeModal(editModal);
-
 })
 
-//открытие модалки добавления карточки
-addCardButton.addEventListener('click', function() {
-    openModal(addCardModal);
-    addCardForm.reset();
+//модалка добавления карточки 
+addCardButton.addEventListener("click", () => {
+    addCardPopup.open();
     validFormaddCard.resetErrorInput()
 });
 
-//закрытие модалки добавления карточки
-addCardCloseButton.addEventListener('click', function() {
-    closeModal(addCardModal);
+const addCardPopup = new PopupWithForm(".popup_type_add-card", {
+    submitHandler: (data) => {
+        const newData = {
+            link: data.link,
+            name: data.name,
+        }
+
+        const newCard = createCard(newData, '.card-template');
+        defaultCardsList.prependItem(newCard);
+
+        addCardPopup.close();
+    }
+
 });
 
-//форма профиля
-editForm.addEventListener('submit', function formSubmitEditHandler(evt) {
-    evt.preventDefault();
-    profileName.textContent = nameInput.value;
-    profileJob.textContent = jobInput.value;
-    closeModal(editModal);
-})
-
-imgModalCloseButton.addEventListener('click', function() {
-    closeModal(imgModal);
-})
+//модалка картинки
+const imgPopup = new PopupWithImage(".popup_type_img");
 
 //добавление карточки
-
 function createCard(data) {
-    const card = new Card(data.name, data.link, '.card-template');
+    const card = new Card(data.name, data.link, '.card-template', {
+        handleCardClick: (name, link) => {
+            imgPopup.open(name, link)
+
+        }
+    });
     const cardElement = card.createCard();
     return cardElement // возваращаете готовую карточку
 }
@@ -116,11 +77,12 @@ const renderPlaceCard = (data) => {
 
 initialCards.forEach(renderPlaceCard);
 
-addCardForm.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-    renderPlaceCard({
-        name: inputCardName.value,
-        link: inputCardLink.value,
-    })
-    closeModal(addCardModal);
-})
+const defaultCardsList = new Section({
+        items: initialCards,
+        renderer: (item) => {
+            const newCard = createCard(item, '.card-template');
+            defaultCardsList.addItem(newCard);
+        }
+    },
+    section
+);
