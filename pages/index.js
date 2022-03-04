@@ -1,11 +1,11 @@
-import { Card } from './Сard.js';
-import { initialCards, validationConfig } from './utils.js';
-import { FormValidator } from './FormValidator.js';
-import Section from './Section.js'
-import PopupWithImage from './PopupWithImage.js'
-import PopupWithForm from './PopupWithForm.js'
-import UserInfo from "./UserInfo.js";
-import { editSelector, editOpenButton, editForm, addCardForm, addCardButton, addCardModal, section } from './utils.js';
+import { Card } from '../components/Сard.js';
+import { initialCards, validationConfig } from '../utils/constants.js';
+import { FormValidator } from '../components/FormValidator.js';
+import Section from '../components/Section.js'
+import PopupWithImage from '../components/PopupWithImage.js'
+import PopupWithForm from '../components/PopupWithForm.js'
+import UserInfo from "../components/UserInfo.js";
+import { editSelector, editOpenButton, editForm, addCardForm, addCardButton, section } from '../utils/constants.js';
 
 
 const validFormEdit = new FormValidator(validationConfig, editForm);
@@ -44,8 +44,8 @@ addCardButton.addEventListener("click", () => {
 const addCardPopup = new PopupWithForm(".popup_type_add-card", {
     submitHandler: (data) => {
         const newData = {
-            link: data.link,
             name: data.name,
+            link: data.link,
         }
 
         const newCard = createCard(newData, '.card-template');
@@ -53,7 +53,6 @@ const addCardPopup = new PopupWithForm(".popup_type_add-card", {
 
         addCardPopup.close();
     }
-
 });
 
 //модалка картинки
@@ -61,21 +60,16 @@ const imgPopup = new PopupWithImage(".popup_type_img");
 
 //добавление карточки
 function createCard(data) {
-    const card = new Card(data.name, data.link, '.card-template', {
+    console.log(data)
+    const card = new Card(data, '.card-template', {
         handleCardClick: (name, link) => {
             imgPopup.open(name, link)
-
         }
     });
     const cardElement = card.createCard();
     return cardElement // возваращаете готовую карточку
-}
 
-const renderPlaceCard = (data) => {
-    section.prepend(createCard(data));
 }
-
-initialCards.forEach(renderPlaceCard);
 
 const defaultCardsList = new Section({
         items: initialCards,
@@ -86,3 +80,4 @@ const defaultCardsList = new Section({
     },
     section
 );
+defaultCardsList.renderItems();
