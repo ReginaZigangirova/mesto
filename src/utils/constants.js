@@ -36,7 +36,6 @@ export const validationConfig = {
 //модалка профиля
 const editModal = document.querySelector('.popup_type_edit');
 export const editOpenButton = document.querySelector('.profile__button');
-
 export const editForm = editModal.querySelector('.popup__form');
 
 //модалка добавления карточки 
@@ -44,8 +43,7 @@ export const addCardModal = document.querySelector('.popup_type_add-card');
 export const addCardButton = document.querySelector('.profile__button-plus');
 export const addCardForm = addCardModal.querySelector('.popup__form');
 
-//модалка картинки
-//const imgModalCloseButton = imgModal.querySelector('.popup__close');
+
 
 export const section = document.querySelector('.card');
 
