@@ -50,7 +50,7 @@ const addCardPopup = new PopupWithForm(".popup_type_add-card", {
             link: data.link,
         }
 
-        const newCard = createCard(newData, '.card-template');
+        const newCard = createCard(newData);
         defaultCardsList.prependItem(newCard);
 
         addCardPopup.close();
@@ -75,7 +75,7 @@ function createCard(data) {
 const defaultCardsList = new Section({
         items: initialCards,
         renderer: (item) => {
-            const newCard = createCard(item, '.card-template');
+            const newCard = createCard(item);
             defaultCardsList.addItem(newCard);
         }
     },
