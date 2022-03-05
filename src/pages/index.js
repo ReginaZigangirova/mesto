@@ -7,6 +7,8 @@ import PopupWithForm from '../components/PopupWithForm.js'
 import UserInfo from "../components/UserInfo.js";
 import { editSelector, editOpenButton, editForm, addCardForm, addCardButton, section } from '../utils/constants.js';
 
+import './index.css';
+
 
 const validFormEdit = new FormValidator(validationConfig, editForm);
 const validFormaddCard = new FormValidator(validationConfig, addCardForm);
@@ -60,7 +62,6 @@ const imgPopup = new PopupWithImage(".popup_type_img");
 
 //добавление карточки
 function createCard(data) {
-    console.log(data)
     const card = new Card(data, '.card-template', {
         handleCardClick: (name, link) => {
             imgPopup.open(name, link)
