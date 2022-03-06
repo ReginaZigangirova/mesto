@@ -21,6 +21,7 @@ export class Card {
         this._element = this._getTemplate();
         this._cardImage = this._element.querySelector('.card__photo');
         this._cardImage.src = this._link;
+        this._cardImage.alt = this._name;
         this._element.querySelector('.card__tittle').textContent = this._name;
         this._likeButton = this._element.querySelector('.card__like');
         this._setEventListeners();
