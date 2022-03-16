@@ -6,9 +6,25 @@ import PopupWithImage from '../components/PopupWithImage.js'
 import PopupWithForm from '../components/PopupWithForm.js'
 import UserInfo from "../components/UserInfo.js";
 import { editSelector, editOpenButton, editForm, addCardForm, addCardButton, section } from '../utils/constants.js';
-
+import { api } from '../components/Api.js';
 import './index.css';
 
+api.getProfile()
+    .then(res => {
+        console.log('ответ', res)
+        userInfo.setUserInfo(res.name, res.about)
+    })
+
+api.getInitialCards()
+    .then(cardList => {
+        cardList.forEach(data => {
+            const newData = {
+                name: data.name,
+                link: data.link
+            }
+            defaultCardsList.addItem(newData)
+        })
+    })
 
 const validFormEdit = new FormValidator(validationConfig, editForm);
 const validFormaddCard = new FormValidator(validationConfig, addCardForm);
@@ -51,7 +67,7 @@ const addCardPopup = new PopupWithForm(".popup_type_add-card", {
         }
 
         const newCard = createCard(newData);
-        defaultCardsList.prependItem(newCard);
+        defaultCardsList.prependItem(newCard); //section.addItem(card) 48.04
 
         addCardPopup.close();
     }
@@ -73,7 +89,7 @@ function createCard(data) {
 }
 
 const defaultCardsList = new Section({
-        items: initialCards,
+        items: [],
         renderer: (item) => {
             const newCard = createCard(item);
             defaultCardsList.addItem(newCard);
