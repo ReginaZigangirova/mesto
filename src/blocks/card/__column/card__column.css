@@ -1,0 +1,6 @@
+.card__column {
+    display: flex;
+    flex-direction: column;
+    width: 22px;
+    align-items: center;
+}
