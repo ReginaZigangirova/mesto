@@ -11,7 +11,7 @@
 <body class="wrapper">
     <div class="page">
         <header class="header">
-            <img src="<%=require('./images/Vector.svg')%>" vclass="header__logo" alt="Логотип">
+            <img src="<%=require('./images/Vector.svg')%>" class="header__logo" alt="Логотип">
         </header>
 
         <main class="main-content">
@@ -49,7 +49,7 @@
                 <form action="submit" class="popup__form" name="edit" novalidate>
                     <input type="text" value="Жак-Ив Кусто" placeholder="Имя" class="popup__input popup__input_type_name" name="name" id="nameInput" minlength="2" maxlength="40" required>
                     <span class="popup__error" id="nameInput-error"></span>
-                    <input type="text" value="Исследователь океана" placeholder="Описание" class="popup__input  popup__input_type_job" name="job" id="jobInput" minlength="2" maxlength="200" required>
+                    <input type="text" value="Исследователь океана" placeholder="Описание" class="popup__input  popup__input_type_job" name="about" id="jobInput" minlength="2" maxlength="200" required>
                     <span class="popup__error" id="jobInput-error"></span>
                     <button type="submit" class="popup__save">Сохранить</button>
                 </form>
@@ -71,6 +71,15 @@
             </div>
         </div>
 
+        <div class="popup popup_type_delete-confirm">
+
+            <div class="popup__container popup__container_type_delete">
+                <button type="button" class="popup__close"></button>
+                <h2 class="popup__text">Вы уверены?</h2>
+                <button type="submit" class="popup__save popup__save_confirmation">Да</button>
+            </div>
+        </div>
+
         <div class="popup popup_type_img">
 
             <div class="popup__container popup__container_type_image">
@@ -86,7 +95,10 @@
             <img src="#" class="card__photo" alt="">
             <div class="card__text">
                 <h2 class="card__tittle"></h2>
+                <div class="card__column">
                 <button type="button" class="card__like"></button>
+                <span class="card__like-count"></span>
+            </div>
             </div>
         </div>
     </template>
