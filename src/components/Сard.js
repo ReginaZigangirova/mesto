@@ -3,7 +3,7 @@ export class Card {
         this._name = data.name;
         this._link = data.link;
         this._likes = data.likes;
-        this._id = data.id;
+        //this._id = data.id;
         this._templateSelector = templateSelector;
         this._handleCardClick = handleCardClick;
         this._handleDeleteClick = handleDeleteClick;
@@ -36,10 +36,11 @@ export class Card {
         return this._element;
     }
 
+
     //функция удаления карточки
-    deleteHandler() {
-        this._element.querySelector('.card__delete').closest('.card__elements').remove();
-    };
+    // deleteHandler() {
+    //     this._element.querySelector('.card__delete').closest('.card__elements').remove();
+    // };
 
     //функция лайка
     _handleLikeButton() {
@@ -48,7 +49,7 @@ export class Card {
 
     //установка слушателей
     _setEventListeners() {
-        this._element.querySelector('.card__delete').addEventListener('click', () => { this._handleDeleteClick(this._id) });
+        this._element.querySelector('.card__delete').addEventListener('click', () => { this._handleDeleteClick() });
         this._likeButton.addEventListener('click', () => { this._handleLikeButton() });
         this._cardImage.addEventListener('click', () => { this._handleCardClick(this._name, this._link) });
     }
