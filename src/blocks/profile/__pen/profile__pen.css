@@ -1,0 +1,18 @@
+.profile__pen {
+    background-image: url(../../../images/avatar.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 120px;
+    height: 120px;
+    border-radius: 60px;
+    border-style: none;
+    background-color: rgba(0, 0, 0, 0.8);
+    position: absolute;
+    opacity: 0;
+}
+
+.profile__pen:hover {
+    cursor: pointer;
+    transition: .5s;
+    opacity: 1;
+}

@@ -18,7 +18,8 @@
 
             <section class="profile">
                 <div class="profile__container">
-                    <img src="<%=require('./images/image.jpg')%>" class="profile__avatar" alt="Аватар">
+                    <img src="" class="profile__avatar" alt="Аватар">
+                    <button type="button" class="profile__pen"></button>
                     <div class="profile__info">
                         <div class="profile__content">
                             <h1 class="profile__name"></h1>
@@ -75,9 +76,22 @@
 
             <div class="popup__container popup__container_type_delete">
                 <button type="button" class="popup__close"></button>
-                <form action="submit" class="popup__form" name="delete" novalidate></form>
-                <h2 class="popup__text">Вы уверены?</h2>
-                <button type="submit" class="popup__save popup__save_confirmation">Да</button>
+                <form action="submit" class="popup__form popup__form_delete" name="delete" novalidate>
+                    <h2 class="popup__text popup__text_delete">Вы уверены?</h2>
+                    <button type="submit" class="popup__save popup__save_confirmation">Да</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="popup popup_type_avatar">
+
+            <div class="popup__container ">
+                <button type="button" class="popup__close"></button>
+                <h2 class="popup__text ">Обновить аватар</h2>
+                <form action="submit" class="popup__form " name="avatarForm" novalidate>
+                    <input type="url" placeholder="Обновить аватар" class="popup__input popup__input_type_avatar" name="avatar" id="editAvatar" required>
+                    <span class="popup__error" id="editAvatar-error"></span>
+                    <button type="submit" class="popup__save ">Сохранить</button>
                 </form>
             </div>
         </div>

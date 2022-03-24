@@ -38,7 +38,9 @@
 @import url(../blocks/popup/__input/_type/popup__input_type_error.css);
 @import url(../blocks/popup/__save/_disabled/popup__save_disabled.css);
 @import url(../blocks/popup/__form/popup__form.css);
-@import url(../blocks/popup/__container/_type/popup__container_type_delete.css);
 @import url(../blocks/popup/__save/confirmation/popup__save_confirmation.css);
 @import url(../blocks/card/__column/card__column.css);
 @import url(../blocks/card/__like/-count/card__like-count.css);
+@import url(../blocks/popup/__form/_delete/popup__form_delete.css);
+@import url(../blocks/popup/__text/_delete/popup__text_delete.css);
+@import url(../blocks/profile/__pen/profile__pen.css);
