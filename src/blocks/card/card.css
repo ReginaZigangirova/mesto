@@ -1,4 +1,4 @@
-.card {
+/* .card {
     padding-top: 51px;
     display: flex;
     row-gap: 20px;
@@ -12,5 +12,32 @@
 @media screen and (max-width: 540px) {
     .card {
         padding-top: 36px;
+    }
+} */
+
+.card {
+    max-width: 100%;
+    margin: 50px auto 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(min-content, max-content));
+    grid-column-gap: 18px;
+    grid-row-gap: 15px;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+}
+
+@media screen and (max-width: 880px) {
+    .card {
+        grid-template-columns: repeat(2, minmax(min-content, max-content));
+    }
+}
+
+@media screen and (max-width: 642px) {
+    .card {
+        grid-template-columns: minmax(min-content, max-content);
+        grid-template-rows: repeat(6, minmax(min-content, max-content));
+        margin: 36px auto 0;
+        grid-row-gap: 20px;
     }
 }
