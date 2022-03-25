@@ -168,6 +168,7 @@ const defaultCardsList = new Section({
                 ownerId: data.owner._id
             });
             defaultCardsList.addItem(newCard);
+
         }
     },
     section
