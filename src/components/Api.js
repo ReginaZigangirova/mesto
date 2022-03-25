@@ -1,4 +1,4 @@
-class Api {
+export class Api {
     constructor({ baseUrl, headers }) {
         this._headers = headers
         this._baseUrl = baseUrl
@@ -22,12 +22,9 @@ class Api {
         }).then(this._checkResponse)
     }
     editProfile(name, about) {
-        return fetch('https://mesto.nomoreparties.co/v1/cohort-37/users/me', {
+        return fetch(`${this._baseUrl}/users/me`, {
                 method: 'PATCH',
-                headers: {
-                    authorization: '0422eec2-f505-49eb-b34a-7793c9abd9fe',
-                    'Content-Type': 'application/json'
-                },
+                headers: this._headers,
                 body: JSON.stringify({
                     name,
                     about
@@ -36,7 +33,7 @@ class Api {
             .then(this._checkResponse)
     }
     addCard(name, link) {
-        return fetch('https://mesto.nomoreparties.co/v1/cohort-37/cards', {
+        return fetch(`${this._baseUrl}/cards`, {
             method: "POST",
             headers: this._headers,
             body: JSON.stringify({
@@ -75,11 +72,3 @@ class Api {
         }).then(this._checkResponse)
     }
 }
-
-export const api = new Api({
-    baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-37',
-    headers: {
-        authorization: '0422eec2-f505-49eb-b34a-7793c9abd9fe',
-        'Content-Type': 'application/json'
-    }
-});

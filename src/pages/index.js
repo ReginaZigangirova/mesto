@@ -6,50 +6,28 @@ import PopupWithImage from '../components/PopupWithImage.js'
 import PopupWithForm from '../components/PopupWithForm.js'
 import UserInfo from "../components/UserInfo.js";
 import { editSelector, editOpenButton, editForm, addCardForm, addCardButton, section, avatarOpenButton, avatarForm } from '../utils/constants.js';
-import { api } from '../components/Api.js';
+import { Api } from '../components/Api.js';
 import './index.css';
+
+const api = new Api({
+    baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-37',
+    headers: {
+        authorization: '0422eec2-f505-49eb-b34a-7793c9abd9fe',
+        'Content-Type': 'application/json'
+    }
+});
 
 let userId
 Promise.all([api.getInitialCards(), api.getProfile()])
-    .then(([cardList, res]) => {
+    .then(([data, res]) => {
         userId = res._id;
         userInfo.setUserInfo(res.name, res.about);
         userInfo.setUserAvatar(res.avatar);
-        cardList.reverse()
-        cardList.forEach(data => {
-            const newData = createCard({
-                name: data.name,
-                link: data.link,
-                likes: data.likes,
-                id: data._id,
-                userId: userId,
-                ownerId: data.owner._id
-            })
-
-            defaultCardsList.addItem(newData)
-        })
+        data.reverse()
+        defaultCardsList.renderItems(data)
     })
     .catch((err) => { console.log(`Ошибка: ${err}`) })
-    // api.getProfile()
-    //     .then(res => {
-    //         userInfo.setUserInfo(res.name, res.about, res.avatar)
-    //         userId = res._id
-    //     })
-    // api.getInitialCards()
-    //     .then(cardList => {
-    //         cardList.forEach(data => {
-    //             const newData = createCard({
-    //                 name: data.name,
-    //                 link: data.link,
-    //                 likes: data.likes,
-    //                 id: data._id,
-    //                 userId: userId,
-    //                 ownerId: data.owner._id
-    //             })
 
-//             defaultCardsList.addItem(newData)
-//         })
-//     })
 
 //валидация
 const validFormEdit = new FormValidator(validationConfig, editForm);
@@ -68,12 +46,17 @@ avatarOpenButton.addEventListener('click', () => {
 
 const avatarPopup = new PopupWithForm('.popup_type_avatar', {
         submitHandler: (res) => {
+            avatarPopup.renderLoading(true)
             api.setAvatar(res.avatar)
                 .then(res => {
                     userInfo.setUserAvatar(res.avatar)
+                    avatarPopup.close()
                 })
-            avatarPopup.close()
+
+            .finally(() => { avatarPopup.renderLoading(false) })
+                .catch((err) => { console.log(`Ошибка: ${err}`) })
         }
+
     })
     //модалка профиля 
 const userInfo = new UserInfo(editSelector);
@@ -93,8 +76,8 @@ const editPopup = new PopupWithForm('.popup_type_edit', {
                 userInfo.setUserInfo(res.name, res.about);
                 editPopup.close();
             })
-
-        .finally(() => { editPopup.renderLoading(false) })
+            .catch((err) => { console.log(`Ошибка: ${err}`) })
+            .finally(() => { editPopup.renderLoading(false) })
     }
 })
 
@@ -121,6 +104,7 @@ const addCardPopup = new PopupWithForm(".popup_type_add-card", {
                 defaultCardsList.prependItem(newCard);
                 addCardPopup.close();
             })
+            .catch((err) => { console.log(`Ошибка: ${err}`) })
             .finally(() => { addCardPopup.renderLoading(false) })
     }
 
@@ -130,8 +114,8 @@ const confirmPopup = new PopupWithForm(".popup_type_delete-confirm", {})
 
 //модалка картинки 
 const imgPopup = new PopupWithImage(".popup_type_img");
-//добавление карточки 
 
+//добавление карточки 
 function createCard(data) {
     const card = new Card(data, '.card-template', {
             handleCardClick: (name, link) => {
@@ -148,6 +132,7 @@ function createCard(data) {
                             card.deleteHandler()
                             confirmPopup.close()
                         })
+                        .catch((err) => { console.log(`Ошибка: ${err}`) })
                         .finally(() => { confirmPopup.renderLoading(false) })
                 }
             })
@@ -158,27 +143,33 @@ function createCard(data) {
                     .then(res => {
                         card.setLikes(res.likes)
                     })
+                    .catch((err) => { console.log(`Ошибка: ${err}`) })
             } else {
                 api.addLike(id)
                     .then(res => {
                         card.setLikes(res.likes)
                     })
+                    .catch((err) => { console.log(`Ошибка: ${err}`) })
             }
-
         },
-
     );
     const cardElement = card.createCard();
     return cardElement // возваращаете готовую карточку 
 }
-
 const defaultCardsList = new Section({
         items: [],
-        renderer: (item) => {
-            const newCard = createCard(item);
+        renderer: (data) => {
+            const newCard = createCard({
+                name: data.name,
+                link: data.link,
+                likes: data.likes,
+                id: data._id,
+                userId: userId,
+                ownerId: data.owner._id
+            });
             defaultCardsList.addItem(newCard);
         }
     },
     section
 );
-defaultCardsList.renderItems();
+//defaultCardsList.renderItems();
